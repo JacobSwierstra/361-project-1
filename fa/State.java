@@ -1,6 +1,6 @@
 package fa;
 
-public abstract class State {
+public abstract class State { 
 	/**
 	 * The state label.
 	 * It should be a unique name.
