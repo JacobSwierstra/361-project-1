@@ -1,33 +1,66 @@
 package fa.dfa;
 
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import fa.State;
 
 public class DFA implements DFAInterface {
+	
+	private Set<Character> alphabet;
+	private Set<DFAState> states;
+	private Set<DFAState> finalStates;
+	private DFAState startState;
+	
+	public DFA(){
+		alphabet = new LinkedHashSet<>();
+		states = new LinkedHashSet<>();
+		finalStates = new LinkedHashSet<>();
+		startState = null;
+	}
 
 	@Override
 	public void addStartState(String name) {
-		// TODO Auto-generated method stub
+		//Do we need to check if the state already exist in the list??
+		//I think the case the start state is a final state
+		
+		DFAState startState = new DFAState(name);
+		states.add(startState);
+		this.startState = startState;
 
 	}
 
 	@Override
 	public void addState(String name) {
-		// TODO Auto-generated method stub
+		for(DFAState s: states) {
+			if(s.getName().equals(name)) return;
+		}
+		DFAState newState = new DFAState(name);
+		states.add(newState);
 
 	}
 
 	@Override
 	public void addFinalState(String name) {
-		// TODO Auto-generated method stub
-
+		DFAState finalState = new DFAState(name);
+		states.add(finalState);
+		finalStates.add(finalState);
 	}
 
 	@Override
 	public void addTransition(String fromState, char onSymb, String toState) {
-		// TODO Auto-generated method stub
-
+		DFAState fState = null;
+		DFAState tState = null;
+		for(DFAState s: states) {
+			if(fState != null && tState != null) break;
+			if(s.getName().equals(fromState)) {
+				fState = s;
+			}
+			if(s.getName().equals(toState)) {
+				tState = s;
+			}
+		}
+		fState.addNextState(onSymb, tState);
 	}
 
 	@Override

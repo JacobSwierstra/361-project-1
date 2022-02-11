@@ -51,7 +51,7 @@ public class DFADriver {
 				dfa.addState(tk.nextToken());
 			}
 
-			//read in the transactions
+			//read in the transitions
 			String trans = scan.nextLine();
 			tk = new StringTokenizer(trans, " ");
 			while(tk.hasMoreTokens()){
