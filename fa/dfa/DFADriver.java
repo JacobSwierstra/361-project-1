@@ -60,7 +60,7 @@ public class DFADriver {
 			}
 
 			//print out dfa in the specified format.
-			System.out.println(dfa.toString());
+			//System.out.println(dfa.toString());
 			//data for swapping
 			Iterator<Character> abcIter = dfa.getABC().iterator();
 			char symb1 = abcIter.next();

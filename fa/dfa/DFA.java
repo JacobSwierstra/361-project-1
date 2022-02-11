@@ -61,6 +61,16 @@ public class DFA implements DFAInterface {
 			}
 		}
 		fState.addNextState(onSymb, tState);
+		addToAlphabet(onSymb);
+	}
+	
+	private void addToAlphabet(char onSymb) {
+		for(Character c : alphabet) {
+			if(c == onSymb) {
+				return;
+			}
+		}
+		alphabet.add(onSymb);
 	}
 
 	@Override
@@ -83,8 +93,7 @@ public class DFA implements DFAInterface {
 
 	@Override
 	public Set<Character> getABC() {
-		// TODO Auto-generated method stub
-		return null;
+		return alphabet;
 	}
 
 	@Override
