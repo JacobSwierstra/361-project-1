@@ -18,6 +18,12 @@ public class DFA implements DFAInterface {
 		finalStates = new LinkedHashSet<>();
 		startState = null;
 	}
+	public DFA(Set<Character> a, Set<DFAState> s, Set<DFAState> f, DFAState ss){
+		alphabet = a;
+		states = s;
+		finalStates = f;
+		startState = ss;
+	}
 
 	@Override
 	public void addStartState(String name) {
@@ -104,8 +110,11 @@ public class DFA implements DFAInterface {
 
 	@Override
 	public DFA swap(char symb1, char symb2) {
-		// TODO Auto-generated method stub
-		return null;
+		DFA dfaCopy = new DFA(this.alphabet, this.states, this.finalStates, this.startState);
+		for(DFAState s: dfaCopy.states) {
+			s.swapKeys(symb1, symb2);
+		}
+		return dfaCopy;
 	}
 
 	@Override
@@ -113,5 +122,5 @@ public class DFA implements DFAInterface {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 }

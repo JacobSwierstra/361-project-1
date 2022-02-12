@@ -21,4 +21,10 @@ public class DFAState extends fa.State {
 		}
 		transitions.put(input, newState);
 	}
+	public void swapKeys(char symb1, char symb2) {
+		DFAState symb1Holder = transitions.get(symb1);
+		DFAState symb2Holder = transitions.get(symb2);
+		transitions.replace(symb1, symb2Holder);
+		transitions.replace(symb2, symb1Holder);
+	}
 }
