@@ -19,16 +19,20 @@ public class DFA implements DFAInterface {
 		startState = null;
 	}
 	public DFA(Set<Character> a, Set<DFAState> s, Set<DFAState> f, DFAState ss){
-		alphabet = a;
-		states = s;
-		finalStates = f;
-		startState = ss;
+		alphabet = new LinkedHashSet<>(a);
+		states = new LinkedHashSet<>(s);
+		finalStates = new LinkedHashSet<>(f);
+		startState = new DFAState(ss.getName(), ss.getTransitions());
 	}
 
 	@Override
 	public void addStartState(String name) {
-		//Do we need to check if the state already exist in the list??
-		//I think the case the start state is a final state
+		for(DFAState s: states) {
+			if(s.getName().equals(name)) {
+				this.startState = s;
+				return;
+			}
+		}
 		
 		DFAState startState = new DFAState(name);
 		states.add(startState);
@@ -81,20 +85,17 @@ public class DFA implements DFAInterface {
 
 	@Override
 	public Set<? extends State> getStates() {
-		// TODO Auto-generated method stub
-		return null;
+		return states;
 	}
 
 	@Override
 	public Set<? extends State> getFinalStates() {
-		// TODO Auto-generated method stub
-		return null;
+		return finalStates;
 	}
 
 	@Override
 	public State getStartState() {
-		// TODO Auto-generated method stub
-		return null;
+		return startState;
 	}
 
 	@Override
@@ -104,15 +105,22 @@ public class DFA implements DFAInterface {
 
 	@Override
 	public boolean accepts(String s) {
-		// TODO Auto-generated method stub
-		return false;
+		DFAState currentState = startState;
+		//System.out.print("SS: " + startState.getName()); currentState.printTansitions();
+	    //System.out.println("Input String: "+s);
+		//System.out.println("Start State: "+currentState.toString());
+		for(char symb: s.toCharArray()) {
+			currentState = currentState.getNextState(symb);
+			//System.out.println(currentState.getName()+" on input: " + s);
+		}
+		return finalStates.contains(currentState);
 	}
 
 	@Override
 	public DFA swap(char symb1, char symb2) {
-		DFA dfaCopy = new DFA(this.alphabet, this.states, this.finalStates, this.startState);
-		for(DFAState s: dfaCopy.states) {
-			s.swapKeys(symb1, symb2);
+		DFA dfaCopy = new DFA(this.alphabet,this.states,this.finalStates,this.startState);		
+		for(State copyS: dfaCopy.getStates()) {
+			((DFAState) copyS).swapKeys(symb1, symb2);
 		}
 		return dfaCopy;
 	}
@@ -121,6 +129,61 @@ public class DFA implements DFAInterface {
 	public State getToState(DFAState from, char onSymb) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	/**
+	 * Construct the textual representation of the DFA, for example
+	 * A simple two state DFA
+	 * Q = { a b }
+	 * Sigma = { 0 1 }
+	 * delta =
+	 *		0	1	
+	 *	a	a	b	
+	 *	b	a	b	
+	 * q0 = a
+	 * F = { b }
+	 * 
+	 * The order of the states and the alphabet is the order
+	 * in which they were instantiated in the DFA.
+	 * @return String representation of the DFA
+	 */
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();	
+		sb.append("Q = { ");
+		for(DFAState s: states) {
+			String str = String.format("%s ", s.getName());
+			sb.append(str);
+		}
+		sb.append("}\n");
+		sb.append("Sigma = { ");
+		for(Character c : alphabet) {
+			String str = String.format("%s ", c);
+			sb.append(str);
+		}
+		sb.append("}\n");
+		sb.append("delta = \n\t\t");
+		for(Character c : alphabet) {
+			String str = String.format("%s\t", c);
+			sb.append(str);
+		}
+		sb.append("\n");
+		for(DFAState s: states) {
+			String str = String.format("\t%s", s.getName());
+			sb.append(str);
+			for(Character c : alphabet) {
+				String nextState = String.format("\t%s", s.getNextState(c).getName());
+				sb.append(nextState);
+			}
+			sb.append("\n");
+		}
+		sb.append("q0 = " + startState + "\n");
+		sb.append("F = { ");
+		for(DFAState s: finalStates) {
+			String str = String.format("%s ", s.getName());
+			sb.append(str);
+		}
+		sb.append("}\n");
+		return sb.toString();
 	}
 	
 }
