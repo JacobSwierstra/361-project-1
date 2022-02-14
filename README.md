@@ -1,7 +1,7 @@
 # Project #: DFA
 
 * Author: Alex Silva
-*         Kancaid Schmitt
+          Kancaid Schmitt
 * Class: CS361 Section 001
 * Semester: Spring 2022
 
