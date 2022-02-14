@@ -1,7 +1,6 @@
 # Project #: DFA
 
-* Author: Alex Silva
-          Kancaid Schmitt
+* Author: Alex Silva, Kincaid Schmitt
 * Class: CS361 Section 001
 * Semester: Spring 2022
 
@@ -11,6 +10,10 @@ Concisely explain what the program does. If this exceeds a couple of
 sentences, you're going too far. Generally you should be pulling this
 right from the project specification. I don't want you to just cut and
 paste, but paraphrase what is stated in the project specification.
+
+This application takes in the a specified format of an input file
+and creates a DFA (Deterministic Finite Automata) from the input 
+file. 
 
 ## Reflection
 
