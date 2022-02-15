@@ -6,9 +6,9 @@
 
 ## Overview
 
-This application takes in the a specified format of an input file
-and creates a DFA (Deterministic Finite Automata) from the input 
-file. 
+This application we were tasked with taking in an input file and creating
+a DFA(Deterministic Finite Automata) where we had to run through a couple
+test string and make a swap.
 
 ## Reflection
 
@@ -23,7 +23,11 @@ my partner and I assumed it would not be the big of a deal. The problem
 arised when trying to create a deep copy of the DFA to manipulate 
 instead of the original. We tried many different ideas but the solution
 in the end was taking the long way and manually adiing each element
-of the DFA to the copy.
+of the DFA to the copy. We got it to swap but we some how could not get
+the final state to correct. As you can see in the image below it appears
+the transitions were swapped but looking into it more we concluded that an 
+error occured in the deep copy.
+![image](https://user-images.githubusercontent.com/89565246/154004245-8a2bdebe-f9dc-4030-b958-e0c599f9fef8.png)
 
 ## Compiling and Using
 
