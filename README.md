@@ -26,7 +26,8 @@ in the end was taking the long way and manually adiing each element
 of the DFA to the copy. We got it to swap but we some how could not get
 the final state to correct. As you can see in the image below it appears
 the transitions were swapped but looking into it more we concluded that an 
-error occured in the deep copy.
+error occured in the deep copy. First output is the original DFA and the
+second is our copy and swapped one.
 
 ![image](https://user-images.githubusercontent.com/89565246/154004245-8a2bdebe-f9dc-4030-b958-e0c599f9fef8.png)
 
