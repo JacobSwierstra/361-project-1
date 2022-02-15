@@ -1,4 +1,4 @@
-# Project #: DFA
+# Project 1: DFA
 
 * Author: Alex Silva, Kincaid Schmitt
 * Class: CS361 Section 001
@@ -6,38 +6,43 @@
 
 ## Overview
 
-Concisely explain what the program does. If this exceeds a couple of
-sentences, you're going too far. Generally you should be pulling this
-right from the project specification. I don't want you to just cut and
-paste, but paraphrase what is stated in the project specification.
-
 This application takes in the a specified format of an input file
 and creates a DFA (Deterministic Finite Automata) from the input 
 file. 
 
 ## Reflection
 
-Write a two paragraph reflection describing your experience with this 
-project. Talk about what worked well and what was challenging.  
-Did you run into an issue that took some time to figure out?  
-Tell us about it. What did you enjoy, what was less desirable? Feel
-free to add other items (within the two paragraph limit).
+In the beginning of this project, it was nice and not very many hurdles. 
+It made us think and called for some creative solutions or just looking
+deeper into how like the HashMaps work and such. Working with though 
+through the Driver classs is how we went about it, where when the class 
+called a method that wasn't implemented we would then create it.
+
+The real struggle began when we started the Swap() method. At first
+my partner and I assumed it would not be the big of a deal, which the
+swapping part wasn't, but it came when trying to create a deep copy 
+of the DFA to manipulate instead of the original. ....
 
 ## Compiling and Using
 
-This section should tell the user how to compile your code.  It is
-also appropriate to instruct the user how to use your code. Does your
-program require user input? If so, what does your user need to know
-about it to use it as quickly as possible?
+To compile, execute the following command in the main project directory:
+```
+$ javac fa/dfa/DFADriver.java
+```
+
+Run the compiled class with the command:
+```
+$ java fa.dfa.DFADriver ./tests/p1tc1.txt
+```
+
+The program will then run the chosen test file and create the following
+DFA. Then creates a copy of that DFA and swaps the transitions and then
+it run a seires of inputs that will either fail or pass through both of
+them. Final tells us if the swap DFA is correct.
 
 ## Sources used
 
-If you used any sources outside of the lecture notes, class lab files,
-or text book you need to list them here. If you looked something up on
-stackoverflow.com and fail to cite it in this section it will be
-considered plagiarism and be dealt with accordingly. So be safe CITE!
+https://docs.oracle.com/javase/8/docs/api/java/util/Map.html
+https://docs.oracle.com/javase/8/docs/api/java/util/Set.html
 
 ----------
-This README template is using Markdown. To preview your README output,
-you can copy your file contents to a Markdown editor/previewer such
-as [https://stackedit.io/editor](https://stackedit.io/editor).
