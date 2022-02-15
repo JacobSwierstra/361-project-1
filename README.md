@@ -19,9 +19,11 @@ through the Driver classs is how we went about it, where when the class
 called a method that wasn't implemented we would then create it.
 
 The real struggle began when we started the Swap() method. At first
-my partner and I assumed it would not be the big of a deal, which the
-swapping part wasn't, but it came when trying to create a deep copy 
-of the DFA to manipulate instead of the original. ....
+my partner and I assumed it would not be the big of a deal. The problem
+arised when trying to create a deep copy of the DFA to manipulate 
+instead of the original. We tried many different ideas but the solution
+in the end was taking the long way and manually adiing each element
+of the DFA to the copy.
 
 ## Compiling and Using
 
