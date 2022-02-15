@@ -44,10 +44,11 @@ public class DFAState extends fa.State {
 	 * @param newState - the new state to go to
 	 */
 	public void addNextState(Character input, DFAState newState) {
+		//check if transition already exists
 		if(transitions.get(input) == newState) {
-			System.out.println("Transition already exists");
 			return;
 		}
+		//add to hashmap
 		transitions.put(input, newState);
 	}
 	
@@ -67,6 +68,7 @@ public class DFAState extends fa.State {
 	 * @param symb2 - second char
 	 */
 	public void swapKeys(char symb1, char symb2) {
+		//swaps the input keys
 		DFAState symb1Holder = transitions.get(symb1);
 		DFAState symb2Holder = transitions.get(symb2);
 		transitions.replace(symb1, symb2Holder);

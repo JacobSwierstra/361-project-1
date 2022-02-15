@@ -68,11 +68,6 @@ public class DFADriver {
 			char symb1 = abcIter.next();
 			char symb2 = abcIter.next();
 			DFA dfaSW = dfa.swap(symb1, symb2);
-			for(DFAState s : dfaSW.getStates2()) {
-				System.out.print(s.getName());
-				s.printTansitions();
-			}
-			System.out.println(dfaSW.toString());
 			boolean correctSW = true;
 
 			//now process the input strings
@@ -81,12 +76,10 @@ public class DFADriver {
 					boolean accepts = dfa.accepts(input);
 					System.out.println(accepts?"yes":"no");
 					String inputSW = input.replace(symb1, '-').replace(symb2, symb1).replace('-', symb2);
-					System.out.println(inputSW);
 					boolean acceptsSW = dfaSW.accepts(inputSW);
 					if(correctSW) {
 						correctSW = accepts == acceptsSW;
 					}
-					System.out.println(correctSW);
 			}
 			System.out.println("\nIs swapped DFA correct? : " + (correctSW?"yes":"no"));
 			scan.close();

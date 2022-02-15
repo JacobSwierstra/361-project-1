@@ -27,6 +27,7 @@ public class DFA implements DFAInterface {
 	 * Constructor to create a new DFA object
 	 */
 	public DFA(){
+		//initalize empty values
 		alphabet = new LinkedHashSet<>();
 		states = new LinkedHashSet<>();
 		finalStates = new LinkedHashSet<>();
@@ -35,6 +36,7 @@ public class DFA implements DFAInterface {
 
 	@Override
 	public void addStartState(String name) {
+		//check if state already exists
 		for(DFAState s: states) {
 			if(s.getName().equals(name)) {
 				this.startState = s;
@@ -42,6 +44,7 @@ public class DFA implements DFAInterface {
 			}
 		}
 		
+		//create new state and add it to set
 		DFAState startState = new DFAState(name);
 		states.add(startState);
 		this.startState = startState;
@@ -50,9 +53,11 @@ public class DFA implements DFAInterface {
 
 	@Override
 	public void addState(String name) {
+		//check if state already exists
 		for(DFAState s: states) {
 			if(s.getName().equals(name)) return;
 		}
+		//add the new state if not exists
 		DFAState newState = new DFAState(name);
 		states.add(newState);
 
@@ -60,13 +65,14 @@ public class DFA implements DFAInterface {
 
 	@Override
 	public void addFinalState(String name) {
+		//check if state already exists. If so, add to set
 		for(DFAState s: states) {
 			if(s.getName().equals(name)) {
 				finalStates.add(s);
 				return;
 			}
 		}
-		
+		//create new state and add it to set
 		DFAState finalState = new DFAState(name);
 		states.add(finalState);
 		finalStates.add(finalState);
@@ -74,6 +80,7 @@ public class DFA implements DFAInterface {
 
 	@Override
 	public void addTransition(String fromState, char onSymb, String toState) {
+		//find the to and from state by iterating through states and checking names
 		DFAState fState = null;
 		DFAState tState = null;
 		for(DFAState s: states) {
@@ -85,21 +92,24 @@ public class DFA implements DFAInterface {
 				tState = s;
 			}
 		}
+		//update the transitions and add symbols to alpha
 		fState.addNextState(onSymb, tState);
 		addToAlphabet(onSymb);
 	}
 	
 	/**
-	 * Add new symbols to the alphabet as we see them
+	 * Add new symbols to the alphabet as we see new ones
 	 * 
 	 * @param onSymb
 	 */
 	private void addToAlphabet(char onSymb) {
+		//check if it already exists in the set
 		for(Character c : alphabet) {
 			if(c == onSymb) {
 				return;
 			}
 		}
+		//add if it is new
 		alphabet.add(onSymb);
 	}
 
@@ -108,6 +118,11 @@ public class DFA implements DFAInterface {
 		return states;
 	}
 	
+	/**
+	 * Returns the states in the specified object type
+	 * 
+	 * @return a Set<DFAState> object
+	 */
 	public Set<DFAState> getStates2(){
 		return states;
 	}
@@ -129,18 +144,24 @@ public class DFA implements DFAInterface {
 
 	@Override
 	public boolean accepts(String s) {
+		//current state starts at start state
 		DFAState currentState = startState;
+		//update current state to next state
 		for(char symb: s.toCharArray()) {
 			currentState = currentState.getNextState(symb);
 		}
-		for(DFAState state: finalStates) {
-			if(state.getName().equals(currentState.getName())) return true;
-		}
-		return false;
+		//for(DFAState state: finalStates) {
+			//if(state.getName().equals(currentState.getName())) return true;
+		//}
+		//return false;
+		
+		//check if current state is in final state
+		return finalStates.contains(currentState);
 	}
 
 	@Override
 	public DFA swap(char symb1, char symb2) {
+		//create a deep copy and swap the keys
 		DFA dfaCopy = deepCopy();		
 		for(State copyS: dfaCopy.getStates()) {
 			((DFAState) copyS).swapKeys(symb1, symb2);
@@ -154,7 +175,10 @@ public class DFA implements DFAInterface {
 	 * @return a deep copy of the dfa object
 	 */
 	private DFA deepCopy() {
+		//initalize the new DFA object
 		DFA dfa = new DFA();	
+		
+		//manually add the alphabet, states, and final states
 		for(char symb: alphabet) {
 			dfa.addToAlphabet(symb);
 		} 
@@ -165,9 +189,13 @@ public class DFA implements DFAInterface {
 		for(DFAState state: states) {
 			for(DFAState newStates: dfa.getStates2()) {
 				if(state.getName().equals(newStates.getName())) {
+					//gets the old transitions from the old object
 					HashMap<Character,DFAState> oldTrans = state.getTransitions();
+					//iterate over each ket in old object
 					for(char input : oldTrans.keySet()) {
+						//gets the next state given the key
 						DFAState wantedState = state.getNextState(input);
+						//adds transition input and state to new dfa object
 						newStates.addNextState(input, wantedState);
 					}
 				}
@@ -205,19 +233,23 @@ public class DFA implements DFAInterface {
 	 */
 	@Override
 	public String toString() {
+		//use string builder to build the string output
 		StringBuilder sb = new StringBuilder();	
+		//iterate over states
 		sb.append("Q = { ");
 		for(DFAState s: states) {
 			String str = String.format("%s ", s.getName());
 			sb.append(str);
 		}
 		sb.append("}\n");
+		//iterate over alphabet
 		sb.append("Sigma = { ");
 		for(Character c : alphabet) {
 			String str = String.format("%s ", c);
 			sb.append(str);
 		}
 		sb.append("}\n");
+		//crates transition table
 		sb.append("delta = \n\t\t");
 		for(Character c : alphabet) {
 			String str = String.format("%s\t", c);
@@ -233,7 +265,9 @@ public class DFA implements DFAInterface {
 			}
 			sb.append("\n");
 		}
+		//start state
 		sb.append("q0 = " + startState + "\n");
+		//final state
 		sb.append("F = { ");
 		for(DFAState s: finalStates) {
 			String str = String.format("%s ", s.getName());
