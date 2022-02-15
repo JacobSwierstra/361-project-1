@@ -6,6 +6,16 @@ import java.util.Set;
 
 import fa.State;
 
+/**
+ * A DFA object that represents a full DFA. Each DFA has a 
+ * corresponding alphabet, states, finalstates, and a startState.
+ * There are many methods that we implemented to add and change 
+ * our DFA object. The DFA also can take in string input and 
+ * decide if the string is accepted or rejected
+ * 
+ * @author Kincaid Schmitt, Alex Silva
+ *
+ */
 public class DFA implements DFAInterface {
 	
 	private Set<Character> alphabet;

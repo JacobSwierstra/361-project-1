@@ -36,9 +36,12 @@ public class DFAState extends fa.State {
 	public DFAState getNextState(Character input) {
 		return transitions.get(input);
 	}
+	
 	/**
-	 * @param input
-	 * @param newState
+	 * Adds the a new next state to the transition hashmap
+	 * 
+	 * @param input - the input to get to next state
+	 * @param newState - the new state to go to
 	 */
 	public void addNextState(Character input, DFAState newState) {
 		if(transitions.get(input) == newState) {
@@ -47,15 +50,21 @@ public class DFAState extends fa.State {
 		}
 		transitions.put(input, newState);
 	}
+	
 	/**
-	 * @return
+	 * Gets the full hashmap of transitions
+	 * 
+	 * @return the hashmap of transitions
 	 */
 	public HashMap<Character,DFAState> getTransitions(){
 		return transitions;
 	}
+	
 	/**
-	 * @param symb1
-	 * @param symb2
+	 * Swaps the key inputs of the hashmap
+	 * 
+	 * @param symb1 - first char
+	 * @param symb2 - second char
 	 */
 	public void swapKeys(char symb1, char symb2) {
 		DFAState symb1Holder = transitions.get(symb1);
@@ -65,6 +74,9 @@ public class DFAState extends fa.State {
 	}
 
 
+	/**
+	 * Prints the transitions. Helped with debugging and validation
+	 */
 	public void printTansitions() {
 		System.out.println(transitions);
 	}
