@@ -1,5 +1,6 @@
 package fa.dfa;
 
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -12,17 +13,14 @@ public class DFA implements DFAInterface {
 	private Set<DFAState> finalStates;
 	private DFAState startState;
 	
+	/**
+	 * Constructor to create a new DFA object
+	 */
 	public DFA(){
 		alphabet = new LinkedHashSet<>();
 		states = new LinkedHashSet<>();
 		finalStates = new LinkedHashSet<>();
 		startState = null;
-	}
-	public DFA(Set<Character> a, Set<DFAState> s, Set<DFAState> f, DFAState ss){
-		alphabet = new LinkedHashSet<>(a);
-		states = new LinkedHashSet<>(s);
-		finalStates = new LinkedHashSet<>(f);
-		startState = new DFAState(ss.getName(), ss.getTransitions());
 	}
 
 	@Override
@@ -52,6 +50,13 @@ public class DFA implements DFAInterface {
 
 	@Override
 	public void addFinalState(String name) {
+		for(DFAState s: states) {
+			if(s.getName().equals(name)) {
+				finalStates.add(s);
+				return;
+			}
+		}
+		
 		DFAState finalState = new DFAState(name);
 		states.add(finalState);
 		finalStates.add(finalState);
@@ -74,6 +79,11 @@ public class DFA implements DFAInterface {
 		addToAlphabet(onSymb);
 	}
 	
+	/**
+	 * Add new symbols to the alphabet as we see them
+	 * 
+	 * @param onSymb
+	 */
 	private void addToAlphabet(char onSymb) {
 		for(Character c : alphabet) {
 			if(c == onSymb) {
@@ -85,6 +95,10 @@ public class DFA implements DFAInterface {
 
 	@Override
 	public Set<? extends State> getStates() {
+		return states;
+	}
+	
+	public Set<DFAState> getStates2(){
 		return states;
 	}
 
@@ -106,29 +120,62 @@ public class DFA implements DFAInterface {
 	@Override
 	public boolean accepts(String s) {
 		DFAState currentState = startState;
-		//System.out.print("SS: " + startState.getName()); currentState.printTansitions();
-	    //System.out.println("Input String: "+s);
-		//System.out.println("Start State: "+currentState.toString());
 		for(char symb: s.toCharArray()) {
 			currentState = currentState.getNextState(symb);
-			//System.out.println(currentState.getName()+" on input: " + s);
 		}
-		return finalStates.contains(currentState);
+		for(DFAState state: finalStates) {
+			if(state.getName().equals(currentState.getName())) return true;
+		}
+		return false;
 	}
 
 	@Override
 	public DFA swap(char symb1, char symb2) {
-		DFA dfaCopy = new DFA(this.alphabet,this.states,this.finalStates,this.startState);		
+		DFA dfaCopy = deepCopy();		
 		for(State copyS: dfaCopy.getStates()) {
 			((DFAState) copyS).swapKeys(symb1, symb2);
 		}
 		return dfaCopy;
 	}
 
+	/**
+	 * A method to create a deep copy of the primary dfa object
+	 * 
+	 * @return a deep copy of the dfa object
+	 */
+	private DFA deepCopy() {
+		DFA dfa = new DFA();	
+		for(char symb: alphabet) {
+			dfa.addToAlphabet(symb);
+		} 
+		for(DFAState state: states) {
+			dfa.addState(state.getName());
+		}
+		//We think that our bug exists in this part of the code.
+		for(DFAState state: states) {
+			for(DFAState newStates: dfa.getStates2()) {
+				if(state.getName().equals(newStates.getName())) {
+					HashMap<Character,DFAState> oldTrans = state.getTransitions();
+					for(char input : oldTrans.keySet()) {
+						DFAState wantedState = state.getNextState(input);
+						newStates.addNextState(input, wantedState);
+					}
+				}
+			}
+			
+		}
+		
+		for(DFAState fStates: finalStates) {
+			dfa.addFinalState(fStates.getName());
+		}
+		dfa.addStartState(startState.getName());
+			
+		return dfa;
+	}
+	
 	@Override
 	public State getToState(DFAState from, char onSymb) {
-		// TODO Auto-generated method stub
-		return null;
+		return from.getNextState(onSymb);
 	}
 	/**
 	 * Construct the textual representation of the DFA, for example
@@ -184,6 +231,5 @@ public class DFA implements DFAInterface {
 		}
 		sb.append("}\n");
 		return sb.toString();
-	}
-	
+	}	
 }
